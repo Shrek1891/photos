@@ -22,6 +22,7 @@ const CreatePage = () => {
     image: "",
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [formDataCurrent, setFormDataCurrent] = useState({});
 
   interface CloudinaryResponse {
     secure_url: string;
@@ -36,24 +37,25 @@ const CreatePage = () => {
     const formData = new FormData();
     formData.append("file", file);
     formData.append("upload_preset", "fotos-gallery"); // Из настроек Cloudinary
+    setFormDataCurrent(formData);
+  };
 
+  const [createPhoto] = useCreatePhotoMutation();
+
+  const addNewPhoto = async () => {
     try {
       setIsLoading(true);
       const response = await axios.post<CloudinaryResponse>(
         `https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDE_NAME}/image/upload`,
-        formData,
+        formDataCurrent,
       );
+      console.log(response.data.secure_url);
       setNewPhoto({ ...newPhoto, image: response.data.secure_url });
     } catch (error) {
       console.error("Error uploading:", error);
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const [createPhoto] = useCreatePhotoMutation();
-
-  const addNewPhoto = () => {
     const result = createPhoto(newPhoto);
     if ("error" in result) {
       toaster.create({
