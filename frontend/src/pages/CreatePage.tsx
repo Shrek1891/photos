@@ -23,6 +23,7 @@ const CreatePage = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [formDataCurrent, setFormDataCurrent] = useState({});
+  const [url, setUrl] = useState("");
 
   interface CloudinaryResponse {
     secure_url: string;
@@ -49,9 +50,7 @@ const CreatePage = () => {
         `https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDE_NAME}/image/upload`,
         formDataCurrent,
       );
-      setNewPhoto({ ...newPhoto, image: response.data.secure_url });
-      console.log(newPhoto, response.data.secure_url);
-      createPhoto(newPhoto);
+      createPhoto({ ...newPhoto, image: response.data.secure_url });
       toaster.create({
         title: "Photo added",
         description: "Your photo has been added successfully!",
