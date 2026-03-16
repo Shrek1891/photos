@@ -16,7 +16,6 @@ import { useNavigate } from "react-router-dom";
 
 const CreatePage = () => {
   const navigate = useNavigate();
-  const [formDataState, setFormDataState] = useState({});
   const [newPhoto, setNewPhoto] = useState({
     title: "",
     description: "",
@@ -36,18 +35,13 @@ const CreatePage = () => {
     if (!file) return;
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("upload_preset", "fotos-gallery");
-    setFormDataState(formData);
-  };
+    formData.append("upload_preset", "fotos-gallery"); // Из настроек Cloudinary
 
-  const [createPhoto] = useCreatePhotoMutation();
-
-  const addNewPhoto = async () => {
     try {
       setIsLoading(true);
       const response = await axios.post<CloudinaryResponse>(
         `https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDE_NAME}/image/upload`,
-        formDataState,
+        formData,
       );
       setNewPhoto({ ...newPhoto, image: response.data.secure_url });
     } catch (error) {
@@ -55,6 +49,11 @@ const CreatePage = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const [createPhoto] = useCreatePhotoMutation();
+
+  const addNewPhoto = () => {
     const result = createPhoto(newPhoto);
     if ("error" in result) {
       toaster.create({
