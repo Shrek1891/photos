@@ -50,6 +50,7 @@ const CreatePage = () => {
         formDataCurrent,
       );
       setNewPhoto({ ...newPhoto, image: response.data.secure_url });
+      console.log(newPhoto);
       createPhoto(newPhoto);
       toaster.create({
         title: "Photo added",
