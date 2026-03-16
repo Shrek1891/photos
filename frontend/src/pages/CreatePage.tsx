@@ -49,32 +49,25 @@ const CreatePage = () => {
         `https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDE_NAME}/image/upload`,
         formDataCurrent,
       );
-      console.log(response.data.secure_url);
       setNewPhoto({ ...newPhoto, image: response.data.secure_url });
+      createPhoto(newPhoto);
+      toaster.create({
+        title: "Photo added",
+        description: "Your photo has been added successfully!",
+        type: "success",
+      });
+      setNewPhoto({
+        title: "",
+        description: "",
+        image: "",
+      });
     } catch (error) {
       console.error("Error uploading:", error);
     } finally {
       setIsLoading(false);
     }
-    const result = createPhoto(newPhoto);
-    if ("error" in result) {
-      toaster.create({
-        title: "Error",
-        description: "Failed to add photo. Please try again.",
-        type: "error",
-      });
-      return;
-    }
-    toaster.create({
-      title: "Photo added",
-      description: "Your photo has been added successfully!",
-      type: "success",
-    });
-    setNewPhoto({
-      title: "",
-      description: "",
-      image: "",
-    });
+
+    setFormDataCurrent({});
     navigate("/");
   };
   return (
