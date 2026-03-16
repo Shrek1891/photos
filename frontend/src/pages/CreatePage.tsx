@@ -23,7 +23,6 @@ const CreatePage = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [formDataCurrent, setFormDataCurrent] = useState({});
-  const [url, setUrl] = useState("");
 
   interface CloudinaryResponse {
     secure_url: string;
