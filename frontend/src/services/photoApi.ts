@@ -10,7 +10,7 @@ interface Photo {
 
 export const photoApi = createApi({
   reducerPath: 'photoApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:5000/api/' }),
+  baseQuery: fetchBaseQuery({ baseUrl: '/api/' }),
   endpoints: (builder) => ({
     getPhotos: builder.query({
       query: () => '/photos',
