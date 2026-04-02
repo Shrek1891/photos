@@ -32,7 +32,6 @@ interface PhotoCardProps {
 }
 
 const PhotoCard = ({ photo }: { photo: PhotoCardProps }) => {
-  const [isOpen, setIsOpen] = useState(false);
   const handleUpdate = () => {
     const res = updatePhotoMutation({ id: photo._id, ...updatePhoto });
     if ("error" in res) {
@@ -93,7 +92,6 @@ const PhotoCard = ({ photo }: { photo: PhotoCardProps }) => {
             w="full"
             objectFit="contain"
             cursor="pointer"
-            onClick={() => setIsOpen(true)}
           />
           <Box p={4}>
             <Heading as="h3" size="md" mb={2} textAlign={"center"}>
@@ -180,32 +178,6 @@ const PhotoCard = ({ photo }: { photo: PhotoCardProps }) => {
           </Dialog.Positioner>
         </Portal>
         <Toaster />
-      </Dialog.Root>
-      <Dialog.Root
-        open={isOpen}
-        onOpenChange={(e) => setIsOpen(e.open)}
-        size="full"
-        motionPreset="slide-in-bottom"
-        placement="top"
-      >
-        <DialogContent bg="rgba(0,0,0,0.9)" zIndex={2000}>
-          <DialogCloseTrigger color="white" />
-          <DialogBody
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            p={0}
-          >
-            <Image
-              src={photo.imageUrl}
-              alt={photo.title}
-              maxH="95vh"
-              maxW="95vw"
-              objectFit="contain"
-              onClick={() => setIsOpen(false)}
-            />
-          </DialogBody>
-        </DialogContent>
       </Dialog.Root>
     </>
   );
