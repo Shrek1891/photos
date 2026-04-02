@@ -14,6 +14,7 @@ import {
 import { MdDeleteOutline } from "react-icons/md";
 import { TbPhotoEdit } from "react-icons/tb";
 import { useColorModeValue } from "./ui/color-mode";
+import { createPortal } from "react-dom";
 import {
   useDeletePhotoMutation,
   useUpdatePhotoMutation,
@@ -74,15 +75,17 @@ const PhotoCard = ({ photo }: { photo: PhotoCardProps }) => {
 
   return (
     <>
-      {selectedImage && (
-        <div className="overlay" onClick={() => setSelectedImage(false)}>
-          <img
-            src={photo.imageUrl}
-            alt={photo.title}
-            className="full-screen-image"
-          />
-        </div>
-      )}
+      {selectedImage &&
+        createPortal(
+          <div className="overlay" onClick={() => setSelectedImage(false)}>
+            <img
+              src={photo.imageUrl}
+              alt={photo.title}
+              className="full-screen-image"
+            />
+          </div>,
+          document.body,
+        )}
       <Dialog.Root>
         <Box
           shadow="lg"
