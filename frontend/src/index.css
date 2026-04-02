@@ -3,12 +3,14 @@
 
 
 .full-screen-image {
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  max-width: 90vw;
-  max-height: 90vh;
-  object-fit: contain;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 80vw;
+    max-height: 90vh;
+    z-index: 1000;
+    cursor: zoom-out;
 }
 
 .overlay {
