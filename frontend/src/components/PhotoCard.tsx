@@ -14,7 +14,6 @@ import {
 import { MdDeleteOutline } from "react-icons/md";
 import { TbPhotoEdit } from "react-icons/tb";
 import { useColorModeValue } from "./ui/color-mode";
-import { createPortal } from "react-dom";
 import {
   useDeletePhotoMutation,
   useUpdatePhotoMutation,
@@ -31,6 +30,7 @@ interface PhotoCardProps {
 
 const PhotoCard = ({ photo }: { photo: PhotoCardProps }) => {
   const [selectedImage, setSelectedImage] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(true);
   const handleUpdate = () => {
     const res = updatePhotoMutation({ id: photo._id, ...updatePhoto });
     if ("error" in res) {
@@ -75,18 +75,22 @@ const PhotoCard = ({ photo }: { photo: PhotoCardProps }) => {
 
   return (
     <>
-      {selectedImage &&
-        createPortal(
-          <div className="overlay" onClick={() => setSelectedImage(false)}>
-            <img
-              src={photo.imageUrl}
-              alt={photo.title}
-              className="full-screen-image"
-            />
-          </div>,
-          document.body,
-        )}
-      <Dialog.Root>
+      {selectedImage && (
+        <div
+          className="overlay"
+          onClick={() => {
+            setSelectedImage(false);
+            setIsDialogOpen(true);
+          }}
+        >
+          <img
+            src={photo.imageUrl}
+            alt={photo.title}
+            className="full-screen-image"
+          />
+        </div>
+      )}
+      <Dialog.Root open={isDialogOpen}>
         <Box
           shadow="lg"
           borderRadius="lg"
