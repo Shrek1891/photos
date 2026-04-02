@@ -67,19 +67,7 @@ button:focus-visible {
   }
 }
 
-.fullscreen-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.9);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  cursor: zoom-out;
-}
+
 
 .fullscreen-image {
   top: 50%;
