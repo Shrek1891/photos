@@ -10,9 +10,6 @@ import {
   Button,
   CloseButton,
   Input,
-  DialogContent,
-  DialogCloseTrigger,
-  DialogBody,
 } from "@chakra-ui/react";
 import { MdDeleteOutline } from "react-icons/md";
 import { TbPhotoEdit } from "react-icons/tb";
