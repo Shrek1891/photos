@@ -10,6 +10,10 @@ import {
   Button,
   CloseButton,
   Input,
+  DialogContent,
+  DialogCloseTrigger,
+  DialogBody,
+  DialogRoot,
 } from "@chakra-ui/react";
 import { MdDeleteOutline } from "react-icons/md";
 import { TbPhotoEdit } from "react-icons/tb";
@@ -29,7 +33,7 @@ interface PhotoCardProps {
 }
 
 const PhotoCard = ({ photo }: { photo: PhotoCardProps }) => {
-  const [selectedImage, setSelectedImage] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const handleUpdate = () => {
     const res = updatePhotoMutation({ id: photo._id, ...updatePhoto });
     if ("error" in res) {
@@ -73,122 +77,137 @@ const PhotoCard = ({ photo }: { photo: PhotoCardProps }) => {
   };
 
   return (
-    <Dialog.Root>
-      {selectedImage && (
-        <div
-          className="fullscreen-overlay"
-          onClick={() => setSelectedImage(false)}
+    <>
+      <Dialog.Root>
+        <Box
+          shadow="lg"
+          borderRadius="lg"
+          overflow="hidden"
+          transition="all 0.2s"
+          bg={"transparent"}
+          _hover={{ transform: "translateY(-2px)", shadow: "xl" }}
         >
-          <img
+          <Image
             src={photo.imageUrl}
             alt={photo.title}
-            className="fullscreen-image"
+            h={64}
+            w="full"
+            objectFit="contain"
+            cursor="pointer"
+            onClick={() => setIsOpen(true)}
           />
-        </div>
-      )}
-      <Box
-        shadow="lg"
-        borderRadius="lg"
-        overflow="hidden"
-        transition="all 0.2s"
-        bg={"transparent"}
-        _hover={{ transform: "translateY(-2px)", shadow: "xl" }}
-      >
-        <Image
-          src={photo.imageUrl}
-          alt={photo.title}
-          h={64}
-          w="full"
-          objectFit="contain"
-          cursor="pointer"
-          onClick={() => setSelectedImage(true)}
-        />
-        <Box p={4}>
-          <Heading as="h3" size="md" mb={2} textAlign={"center"}>
-            {photo.title}
-          </Heading>
-          <Text color={textColor} fontSize="xl" mb={4} textAlign={"center"}>
-            {photo.description}
-          </Text>
-          <HStack alignItems="center" justifyContent="center" gap={"2"}>
-            <Dialog.Trigger asChild>
+          <Box p={4}>
+            <Heading as="h3" size="md" mb={2} textAlign={"center"}>
+              {photo.title}
+            </Heading>
+            <Text color={textColor} fontSize="xl" mb={4} textAlign={"center"}>
+              {photo.description}
+            </Text>
+            <HStack alignItems="center" justifyContent="center" gap={"2"}>
+              <Dialog.Trigger asChild>
+                <IconButton
+                  aria-label="Edit Photo"
+                  size="sm"
+                  colorScheme="blue"
+                  bgColor="blue.500"
+                >
+                  <TbPhotoEdit />
+                </IconButton>
+              </Dialog.Trigger>
               <IconButton
-                aria-label="Edit Photo"
+                aria-label="Delete Photo"
                 size="sm"
-                colorScheme="blue"
-                bgColor="blue.500"
+                colorScheme="red"
+                bgColor="red.500"
+                onClick={handleDelete}
               >
-                <TbPhotoEdit />
+                <MdDeleteOutline />
               </IconButton>
-            </Dialog.Trigger>
-            <IconButton
-              aria-label="Delete Photo"
-              size="sm"
-              colorScheme="red"
-              bgColor="red.500"
-              onClick={handleDelete}
-            >
-              <MdDeleteOutline />
-            </IconButton>
-          </HStack>
+            </HStack>
+          </Box>
         </Box>
-      </Box>
-      <Portal>
-        <Dialog.Backdrop />
-        <Dialog.Positioner>
-          <Dialog.Content>
-            <Dialog.Header>
-              <Dialog.Title>Update Photo</Dialog.Title>
-            </Dialog.Header>
-            <Dialog.Body>
-              <Box w={"full"}>
-                <Heading as="h2" size="lg" mb={2}>
-                  Title
-                </Heading>
-                <Input
-                  placeholder="Enter photo title"
-                  value={updatePhoto.title}
-                  type="text"
-                  name="title"
-                  onChange={(e) =>
-                    setUpdatePhoto({ ...updatePhoto, title: e.target.value })
-                  }
-                />
-              </Box>
-              <Box w={"full"}>
-                <Heading as="h2" size="lg" mb={2}>
-                  Description
-                </Heading>
-                <Input
-                  placeholder="Enter photo description"
-                  type="text"
-                  name="description"
-                  value={updatePhoto.description}
-                  onChange={(e) =>
-                    setUpdatePhoto({
-                      ...updatePhoto,
-                      description: e.target.value,
-                    })
-                  }
-                />
-              </Box>
-            </Dialog.Body>
-            <Dialog.Footer>
-              <Dialog.ActionTrigger asChild>
-                <Button variant="outline">Cancel</Button>
-              </Dialog.ActionTrigger>
-              <Dialog.ActionTrigger asChild>
-                <Button onClick={handleUpdate}>Update photo</Button>
-              </Dialog.ActionTrigger>
-            </Dialog.Footer>
-            <Dialog.CloseTrigger asChild>
-              <CloseButton size="sm" />
-            </Dialog.CloseTrigger>
-          </Dialog.Content>
-        </Dialog.Positioner>
-      </Portal>
-      <Toaster />
-    </Dialog.Root>
+        <Portal>
+          <Dialog.Backdrop />
+          <Dialog.Positioner>
+            <Dialog.Content>
+              <Dialog.Header>
+                <Dialog.Title>Update Photo</Dialog.Title>
+              </Dialog.Header>
+              <Dialog.Body>
+                <Box w={"full"}>
+                  <Heading as="h2" size="lg" mb={2}>
+                    Title
+                  </Heading>
+                  <Input
+                    placeholder="Enter photo title"
+                    value={updatePhoto.title}
+                    type="text"
+                    name="title"
+                    onChange={(e) =>
+                      setUpdatePhoto({ ...updatePhoto, title: e.target.value })
+                    }
+                  />
+                </Box>
+                <Box w={"full"}>
+                  <Heading as="h2" size="lg" mb={2}>
+                    Description
+                  </Heading>
+                  <Input
+                    placeholder="Enter photo description"
+                    type="text"
+                    name="description"
+                    value={updatePhoto.description}
+                    onChange={(e) =>
+                      setUpdatePhoto({
+                        ...updatePhoto,
+                        description: e.target.value,
+                      })
+                    }
+                  />
+                </Box>
+              </Dialog.Body>
+              <Dialog.Footer>
+                <Dialog.ActionTrigger asChild>
+                  <Button variant="outline">Cancel</Button>
+                </Dialog.ActionTrigger>
+                <Dialog.ActionTrigger asChild>
+                  <Button onClick={handleUpdate}>Update photo</Button>
+                </Dialog.ActionTrigger>
+              </Dialog.Footer>
+              <Dialog.CloseTrigger asChild>
+                <CloseButton size="sm" />
+              </Dialog.CloseTrigger>
+            </Dialog.Content>
+          </Dialog.Positioner>
+        </Portal>
+        <Toaster />
+      </Dialog.Root>
+      <Dialog.Root
+        open={isOpen}
+        onOpenChange={(e) => setIsOpen(e.open)}
+        size="full"
+        motionPreset="slide-in-bottom"
+      >
+        <DialogContent bg="rgba(0,0,0,0.9)" zIndex={2000}>
+          <DialogCloseTrigger color="white" />
+          <DialogBody
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            p={0}
+          >
+            <Image
+              src={photo.imageUrl}
+              alt={photo.title}
+              maxH="95vh"
+              maxW="95vw"
+              objectFit="contain"
+              onClick={() => setIsOpen(false)}
+            />
+          </DialogBody>
+        </DialogContent>
+      </Dialog.Root>
+    </>
   );
 };
 
