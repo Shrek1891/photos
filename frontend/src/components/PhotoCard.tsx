@@ -30,7 +30,6 @@ interface PhotoCardProps {
 
 const PhotoCard = ({ photo }: { photo: PhotoCardProps }) => {
   const [selectedImage, setSelectedImage] = useState(false);
-  const [isDialogOpen, setIsDialogOpen] = useState(true);
   const handleUpdate = () => {
     const res = updatePhotoMutation({ id: photo._id, ...updatePhoto });
     if ("error" in res) {
@@ -80,7 +79,6 @@ const PhotoCard = ({ photo }: { photo: PhotoCardProps }) => {
           className="overlay"
           onClick={() => {
             setSelectedImage(false);
-            setIsDialogOpen(true);
           }}
         >
           <img
@@ -90,7 +88,7 @@ const PhotoCard = ({ photo }: { photo: PhotoCardProps }) => {
           />
         </div>
       )}
-      <Dialog.Root open={isDialogOpen}>
+      <Dialog.Root>
         <Box
           shadow="lg"
           borderRadius="lg"
