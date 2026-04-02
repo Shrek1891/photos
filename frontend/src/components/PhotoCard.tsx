@@ -186,6 +186,7 @@ const PhotoCard = ({ photo }: { photo: PhotoCardProps }) => {
         onOpenChange={(e) => setIsOpen(e.open)}
         size="full"
         motionPreset="slide-in-bottom"
+        placement="top"
       >
         <DialogContent bg="rgba(0,0,0,0.9)" zIndex={2000}>
           <DialogCloseTrigger color="white" />
