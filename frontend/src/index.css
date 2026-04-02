@@ -68,7 +68,6 @@ button:focus-visible {
 }
 
 .fullscreen-overlay {
-  position: relative;
   top: 0;
   left: 0;
   width: 100vw;
@@ -86,7 +85,7 @@ button:focus-visible {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  max-width: 90%;
-  max-height: 90%;
+  max-width: 90vw;
+  max-height: 90vh;
   object-fit: contain;
 }

@@ -12,7 +12,14 @@ interface PhotoCardProps {
 const CarouselComponent = ({ data }: { data: PhotoCardProps[] }) => {
   return (
     <Center py={8} px={4} w="100%" h="full">
-      <Carousel.Root slideCount={data.length} maxW="3xl" w="100%" gap="4">
+      <Carousel.Root
+        slideCount={data.length}
+        maxW="3xl"
+        w="100%"
+        gap="4"
+        position="absolute"
+        overflow="hidden"
+      >
         <Carousel.Control justifyContent="center" gap="4" width="full">
           <Carousel.PrevTrigger asChild>
             <IconButton size="xs" variant="outline">
