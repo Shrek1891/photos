@@ -89,3 +89,15 @@ button:focus-visible {
   max-height: 90vh;
   object-fit: contain;
 }
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    max-width: 80vw;
+    max-height: 90vh;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 1000;
+    cursor: zoom-out;
+
+}
