@@ -29,6 +29,7 @@ interface PhotoCardProps {
 }
 
 const PhotoCard = ({ photo }: { photo: PhotoCardProps }) => {
+  const [selectedImage, setSelectedImage] = useState(false);
   const handleUpdate = () => {
     const res = updatePhotoMutation({ id: photo._id, ...updatePhoto });
     if ("error" in res) {
@@ -73,6 +74,18 @@ const PhotoCard = ({ photo }: { photo: PhotoCardProps }) => {
 
   return (
     <Dialog.Root>
+      {selectedImage && (
+        <div
+          className="fullscreen-overlay"
+          onClick={() => setSelectedImage(false)}
+        >
+          <img
+            src={photo.imageUrl}
+            alt={photo.title}
+            className="fullscreen-image"
+          />
+        </div>
+      )}
       <Box
         shadow="lg"
         borderRadius="lg"
@@ -87,6 +100,8 @@ const PhotoCard = ({ photo }: { photo: PhotoCardProps }) => {
           h={64}
           w="full"
           objectFit="contain"
+          cursor="pointer"
+          onClick={() => setSelectedImage(true)}
         />
         <Box p={4}>
           <Heading as="h3" size="md" mb={2} textAlign={"center"}>
