@@ -13,7 +13,6 @@ import {
   DialogContent,
   DialogCloseTrigger,
   DialogBody,
-  DialogRoot,
 } from "@chakra-ui/react";
 import { MdDeleteOutline } from "react-icons/md";
 import { TbPhotoEdit } from "react-icons/tb";
